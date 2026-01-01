@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+npm-debug.log
+
+# Build outputs
+dist/
+build/
+
+# Certificates (Security)
+certs/
+.office-addin-dev-certs/
+
+# Environment variables
+.env
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/

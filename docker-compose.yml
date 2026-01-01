@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # The Load Balancer (Nginx)
+  # This is the single entry point for the user.
+  lb:
+    image: nginx:alpine
+    ports:
+      - "3000:443" # Expose LB on port 3000 to match manifest expectation
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      # Share certs so LB can use them too (simulated for simplicity, usually LB has its own)
+      - certs-vol:/etc/nginx/certs
+    depends_on:
+      - app
+
+  # The Application
+  # Scaled to 4 replicas (1 main + 3 backups)
+  app:
+    build: .
+    volumes:
+      - certs-vol:/app/certs
+    deploy:
+      replicas: 4
+      restart_policy:
+        condition: on-failure
+    environment:
+      - NODE_ENV=development
+
+volumes:
+  certs-vol:

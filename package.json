@@ -1,0 +1,41 @@
+{
+  "name": "m-and-d-signatures",
+  "version": "1.0.0",
+  "description": "Outlook add-in to automatically set signatures",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "dev-server": "webpack serve --mode development",
+    "start": "office-addin-debugging start manifest.xml",
+    "stop": "office-addin-debugging stop manifest.xml",
+    "validate": "office-addin-manifest validate manifest.xml"
+  },
+  "dependencies": {
+    "core-js": "^3.16.0",
+    "regenerator-runtime": "^0.13.9"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "copy-webpack-plugin": "^9.0.1",
+    "css-loader": "^6.2.0",
+    "file-loader": "^6.2.0",
+    "html-loader": "^2.1.2",
+    "html-webpack-plugin": "^5.3.2",
+    "less": "^4.1.1",
+    "less-loader": "^10.0.1",
+    "office-addin-debugging": "^4.2.0",
+    "office-addin-dev-certs": "^1.7.0",
+    "office-addin-lint": "^2.0.0",
+    "office-addin-manifest": "^1.7.0",
+    "office-addin-prettier-config": "^1.1.0",
+    "process": "^0.11.10",
+    "style-loader": "^3.2.1",
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^4.7.4"
+  }
+}
