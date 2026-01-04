@@ -1,28 +1,29 @@
 /* global Office */
+import { getHebrewSignature, getEnglishSignature } from '../taskpane/signatureTemplates';
 
 // This function is the entry point for the "OnNewMessageCompose" and "OnNewAppointmentOrganizer" events.
 function checkSignature(event) {
+    // Default to Hebrew signature for auto-run
     setSignature('hebrew', event);
 }
 
 // Reusable function to set the signature based on type ('hebrew' or 'english')
-async function setSignature(type, event) {
-    // We use the absolute URL to the assets served by the add-in.
-    // In production, this should be the hosting domain. 
-    // For relative paths to work in fetch within the runtime, we need absolute URLs usually.
-    const baseUrl = "https://localhost:3000/assets/";
-    const fileName = type === 'hebrew' ? "signature-hebrew.html" : "signature-english.html";
-    const url = baseUrl + fileName;
-
+function setSignature(type, event) {
     try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Failed to load signature file: ${response.statusText}`);
-        }
-        let signatureHtml = await response.text();
+        const userProfile = Office.context.mailbox.userProfile;
+        const user = {
+            displayName: userProfile.displayName,
+            emailAddress: userProfile.emailAddress,
+            jobTitle: '',
+            phone: ''
+        };
 
-        // If we need to replace dynamic placeholders (like name/phone), we would do it here.
-        // e.g. signatureHtml = signatureHtml.replace("{NAME}", userProfile.displayName);
+        let signatureHtml;
+        if (type === 'hebrew') {
+            signatureHtml = getHebrewSignature(user);
+        } else {
+            signatureHtml = getEnglishSignature(user);
+        }
 
         Office.context.mailbox.item.body.setSignatureAsync(
             signatureHtml,
@@ -30,6 +31,8 @@ async function setSignature(type, event) {
             function (asyncResult) {
                 if (asyncResult.status === Office.AsyncResultStatus.Failed) {
                     console.error("Failed to set signature: " + asyncResult.error.message);
+                } else {
+                    console.log("Signature set successfully");
                 }
 
                 // If triggered by an event, we must signal completion.
@@ -40,7 +43,7 @@ async function setSignature(type, event) {
         );
 
     } catch (error) {
-        console.error("Error fetching signature:", error);
+        console.error("Error setting signature:", error);
         // Ensure event completes even on error to avoid blocking Outlook
         if (event) {
             event.completed({ allowEvent: true });

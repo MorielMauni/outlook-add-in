@@ -1,84 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>M&D Signatures</title>
-    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Auto Signatures</title>
+    <script
+      type="text/javascript"
+      src="https://appsforoffice.microsoft.com/lib/1.1/hosted/office.js"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f3f2f1;
-        }
+      body {
+        font-family: "Segoe UI", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f3f2f1;
+      }
 
-        .container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
 
-        .signature-card {
-            background: white;
-            padding: 15px;
-            border-radius: 4px;
-            box-shadow: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
-            text-align: center;
-        }
+      .signature-card {
+        background: white;
+        padding: 15px;
+        border-radius: 4px;
+        box-shadow:
+          0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132),
+          0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
+        text-align: center;
+      }
 
-        .signature-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #323130;
-        }
+      .signature-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #323130;
+      }
 
-        .signature-preview {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #e1dfdd;
-            margin-bottom: 10px;
-        }
+      .signature-preview {
+        max-width: 100%;
+        height: auto;
+        border: 1px solid #e1dfdd;
+        margin-bottom: 10px;
+      }
 
-        .ms-Button {
-            background-color: #0078d4;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            font-size: 14px;
-            cursor: pointer;
-            border-radius: 2px;
-            min-width: 80px;
-        }
+      .ms-Button {
+        background-color: #0078d4;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        font-size: 14px;
+        cursor: pointer;
+        border-radius: 2px;
+        min-width: 80px;
+      }
 
-        .ms-Button:hover {
-            background-color: #106ebe;
-        }
+      .ms-Button:hover {
+        background-color: #106ebe;
+      }
 
-        .ms-Button:active {
-            background-color: #005a9e;
-        }
+      .ms-Button:active {
+        background-color: #005a9e;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="signature-card">
-            <div class="signature-title">Hebrew Signature</div>
-            <img src="../../assets/signature-hebrew.png" alt="Hebrew Signature" class="signature-preview">
-            <button id="btn-hebrew" class="ms-Button">Use</button>
-        </div>
+      <div class="signature-card">
+        <div class="signature-title">Hebrew Signature</div>
+        <div id="hebrew-signature-container" class="signature-preview"></div>
+        <button id="btn-hebrew" class="ms-Button">Use</button>
+      </div>
 
-        <div class="signature-card">
-            <div class="signature-title">English Signature</div>
-            <img src="../../assets/signature-english.png" alt="English Signature" class="signature-preview">
-            <button id="btn-english" class="ms-Button">Use</button>
-        </div>
+      <div class="signature-card">
+        <div class="signature-title">English Signature</div>
+        <div id="english-signature-container" class="signature-preview"></div>
+        <button id="btn-english" class="ms-Button">Use</button>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>

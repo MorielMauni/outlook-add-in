@@ -1,8 +1,8 @@
-# M&D Signatures - Production Deployment Guide
+# Auto Signatures - Production Deployment Guide
 
 For detailed production setup and customization instructions (including Lawyer signatures), please refer to [prod.md](prod.md).
 
-This project contains the source code and deployment configuration for the M&D Signatures Outlook Add-in.
+This project contains the source code and deployment configuration for the Auto Signatures Outlook Add-in.
 
 ## Architecture
 

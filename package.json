@@ -1,7 +1,7 @@
 {
-  "name": "m-and-d-signatures",
+  "name": "auto-signatures",
   "version": "1.0.0",
-  "description": "Outlook add-in to automatically set signatures",
+  "description": "Auto Signatures Outlook Add-in",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode production",

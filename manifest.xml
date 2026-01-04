@@ -2,12 +2,12 @@
 <OfficeApp xsi:type="MailApp" xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0">
   <Id>56cfa1e9-4e02-4e02-9ca9-23c4a24088c3</Id>
   <Version>1.0.0.0</Version>
-  <ProviderName>M&amp;D</ProviderName>
+  <ProviderName>Auto Signatures</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="M&amp;D Signatures"/>
-  <Description DefaultValue="Automatically sets M&amp;D signatures."/>
-  <IconUrl DefaultValue="https://localhost:3000/assets/icon.png"/>
-  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon.png"/>
+  <DisplayName DefaultValue="Auto Signatures"/>
+  <Description DefaultValue="Automatically sets Auto Signatures."/>
+  <IconUrl DefaultValue="https://localhost:3000/assets/logo.png"/>
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/logo.png"/>
   <SupportUrl DefaultValue="https://www.contoso.com/help"/>
   <AppDomains>
     <AppDomain>https://localhost:3000</AppDomain>
@@ -105,9 +105,9 @@
       </Hosts>
       <Resources>
         <bt:Images>
-          <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/assets/icon.png"/>
-          <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/icon.png"/>
-          <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/icon.png"/>
+          <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/assets/logo.png"/>
+          <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/logo.png"/>
+          <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/logo.png"/>
         </bt:Images>
         <bt:Urls>
           <bt:Url id="commands.Url" DefaultValue="https://localhost:3000/commands.html"/>
