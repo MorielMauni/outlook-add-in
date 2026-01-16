@@ -2,6 +2,8 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
+const bcrypt = require('bcryptjs');
+const sanitizeHtml = require('sanitize-html');
 const users = require('./config/users');
 
 const app = express();
@@ -15,7 +17,7 @@ app.set('view engine', 'ejs');
 
 // Session setup
 app.use(session({
-    secret: 'secret-key-replace-in-prod',
+    secret: process.env.SESSION_SECRET || 'secret-key-replace-in-prod',
     resave: false,
     saveUninitialized: true
 }));
@@ -48,12 +50,13 @@ app.get('/admin', (req, res) => {
 app.post('/admin/login', (req, res) => {
     const { username, password } = req.body;
     
-    if (users[username] && users[username] === password) {
-        req.session.user = username;
-        res.redirect('/admin/dashboard');
-    } else {
-        res.render('login', { error: 'Invalid username or password' });
+    if (users[username]) {
+        if (bcrypt.compareSync(password, users[username])) {
+            req.session.user = username;
+            return res.redirect('/admin/dashboard');
+        }
     }
+    res.render('login', { error: 'Invalid username or password' });
 });
 
 // Dashboard (Protected)
@@ -71,6 +74,12 @@ app.post('/admin/save', (req, res) => {
     let finalFilename;
     if (filename && filename.trim() !== "") {
         finalFilename = filename.trim();
+        
+        // Security check: validate filename
+        if (!/^[a-zA-Z0-9_\-.]+$/.test(finalFilename) || finalFilename.includes('..')) {
+            return res.status(400).send('Invalid filename');
+        }
+
         // Basicsanitization to ensure .html extension
         if (!finalFilename.endsWith('.html')) {
             finalFilename += '.html';
@@ -80,10 +89,21 @@ app.post('/admin/save', (req, res) => {
         finalFilename = `content-${timestamp}.html`;
     }
     
+    // Security check: Sanitize HTML content
+    const sanitizedContent = sanitizeHtml(content, {
+        allowedTags: sanitizeHtml.defaults.allowedTags.concat([ 'img', 'h1', 'h2', 'span', 'div' ]),
+        allowedAttributes: {
+             ...sanitizeHtml.defaults.allowedAttributes,
+             '*': ['style', 'class'],
+             'img': ['src', 'alt', 'width', 'height']
+        },
+        allowedSchemes: [ 'data', 'http', 'https', 'mailto' ]
+    });
+
     const filepath = path.join(__dirname, 'assets', finalFilename);
 
     const fs = require('fs');
-    fs.writeFile(filepath, content, (err) => {
+    fs.writeFile(filepath, sanitizedContent, (err) => {
         if (err) {
             console.error(err);
             return res.status(500).send('Error saving file');

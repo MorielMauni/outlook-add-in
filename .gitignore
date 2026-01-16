@@ -20,3 +20,7 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+# Test artifacts
+cookies.txt
+cookies_new.txt
+cookies_final.txt
