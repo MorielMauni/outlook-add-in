@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # The Load Balancer (Nginx)
@@ -21,11 +21,22 @@ services:
     volumes:
       - certs-vol:/app/certs
     deploy:
-      replicas: 4
+      replicas: 1
       restart_policy:
         condition: on-failure
     environment:
       - NODE_ENV=development
+
+  # The Admin Center
+  admin:
+    build: ./admin-center
+    environment:
+      - PORT=3000
+    volumes:
+      - ./assets:/app/assets
+    deploy:
+      restart_policy:
+        condition: on-failure
 
 volumes:
   certs-vol:

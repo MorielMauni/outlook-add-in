@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Sidebar Styling */
+        #sidebar {
+            width: 250px;
+            background-color: #f0f2f5;
+            border-right: 1px solid #ccc;
+            transition: width 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        
+        #sidebar.collapsed {
+            width: 0;
+            border-right: none;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 1rem;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .file-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-item:hover {
+            background-color: #e4e6eb;
+        }
+
+        /* Main Content Styling */
+        #main-content {
+            flex-grow: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-msg {
+            font-size: 1.5rem;
+            color: #333;
+            margin: 0;
+        }
+
+        .save-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        #toggleSidebarBtn {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            z-index: 1000;
+            background: #fff;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+
+        /* Adjust header when sidebar is present */
+        .wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="sidebar-header">
+                Saved Files
+                <!-- Close btn for mobile if needed, but we have toggle -->
+            </div>
+            <ul id="fileList" class="file-list">
+                <!-- File items injected here -->
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div id="main-content">
+            <button id="toggleSidebarBtn">☰</button>
+
+            <div class="header" style="margin-left: 40px;"> <!-- Push header details a bit -->
+                <h1 class="welcome-msg">User <%= user %> Welcome!</h1>
+                <div class="save-controls">
+                    <input type="text" id="filenameInput" placeholder="Filename (optional)" style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;">
+                    <button id="saveBtn" class="btn-save" style="padding: 0.5rem 1rem; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Save</button>
+                    <button id="defaultBtn" style="padding: 0.5rem 1rem; background-color: #fd7e14; color: white; border: none; border-radius: 4px; cursor: pointer; display: none;">Default</button>
+                    <button id="deleteBtn" style="padding: 0.5rem 1rem; background-color: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer; display: none;">Delete file</button>
+                    <button id="newFileBtn" style="padding: 0.5rem 1rem; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">New file</button>
+                </div>
+            </div>
+            
+            <!-- TinyMCE Editor -->
+            <textarea id="my-expressjs-tinymce-app"></textarea>
+        </div>
+    </div>
+
+    <!-- Load TinyMCE from Tiny Cloud CDN -->
+    <!-- REPLACE 'no-api-key' BELOW WITH YOUR ACTUAL API KEY FROM tiny.cloud -->
+    <script src="https://cdn.tiny.cloud/1/gbwva1m8s42azagorlpbv6eteh887smxi7yyufr62v22wk1w/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#my-expressjs-tinymce-app',
+            height: '100%', 
+            resize: false, // let's fill container
+            plugins: 'image link lists table wordcount directionality',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor highlight | alignleft aligncenter alignright alignjustify | inc_indent dec_indent | ltr rtl | image link table | removeformat',
+            menubar: 'file edit view insert format tools table help',
+            branding: false,
+            image_title: true,
+            automatic_uploads: true,
+            file_picker_types: 'image',
+            file_picker_callback: (cb, value, meta) => {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'file');
+                input.setAttribute('accept', 'image/*');
+                input.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.addEventListener('load', () => {
+                    const id = 'blobid' + (new Date()).getTime();
+                    const blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+                    const base64 = reader.result.split(',')[1];
+                    const blobInfo = blobCache.create(id, file, base64);
+                    blobCache.add(blobInfo);
+                    cb(blobInfo.blobUri(), { title: file.name });
+                });
+                reader.readAsDataURL(file);
+                });
+                input.click();
+            },
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+        });
+
+        // Toggle Sidebar
+        const sidebar = document.getElementById('sidebar');
+        const toggleBtn = document.getElementById('toggleSidebarBtn');
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+
+        // Load Files List
+        function loadFileList() {
+            // Fetch files and default in parallel
+            Promise.all([
+                fetch('/admin/files').then(res => res.json()),
+                fetch('/admin/default').then(res => res.json())
+            ]).then(([files, defaultData]) => {
+                const listEl = document.getElementById('fileList');
+                listEl.innerHTML = '';
+                const defaultFilename = defaultData.filename;
+
+                files.forEach(filename => {
+                    const li = document.createElement('li');
+                    li.className = 'file-item';
+                    li.textContent = filename;
+                    if (filename === defaultFilename) {
+                        li.textContent += ' ✔';
+                        li.style.fontWeight = 'bold';
+                    }
+                    li.onclick = () => loadFile(filename);
+                    listEl.appendChild(li);
+                });
+            }).catch(err => console.error('Error loading data:', err));
+        }
+
+        // Load File Content
+        function loadFile(filename) {
+            fetch(`/admin/files/${filename}`)
+                .then(res => {
+                    if (!res.ok) throw new Error('Failed to load file');
+                    return res.text();
+                })
+                .then(content => {
+                    tinymce.activeEditor.setContent(content);
+                    document.getElementById('filenameInput').value = filename;
+                    document.getElementById('deleteBtn').style.display = 'inline-block';
+                    document.getElementById('defaultBtn').style.display = 'inline-block';
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error loading file');
+                });
+        }
+
+        // Save functionality
+        document.getElementById('saveBtn').addEventListener('click', () => {
+            const content = tinymce.activeEditor.getContent();
+            const filename = document.getElementById('filenameInput').value;
+            
+            fetch('/admin/save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ content: content, filename: filename })
+            })
+            .then(response => {
+                if (response.ok) return response.json();
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                alert('Saved successfully as ' + data.filename);
+                document.getElementById('filenameInput').value = data.filename;
+                loadFileList(); // Refresh list
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error saving content.');
+            });
+        });
+
+        // Delete functionality
+        document.getElementById('deleteBtn').addEventListener('click', () => {
+            const filename = document.getElementById('filenameInput').value;
+            if (!filename) return;
+
+            if (!confirm(`Are you sure you want to delete "${filename}"?`)) {
+                return;
+            }
+
+            fetch('/admin/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename: filename })
+            })
+            .then(response => {
+                if (response.ok) return response.json();
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                alert('File deleted successfully');
+                // Reset UI
+                tinymce.activeEditor.setContent('');
+                document.getElementById('filenameInput').value = '';
+                document.getElementById('deleteBtn').style.display = 'none';
+                loadFileList(); // Refresh list
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting file.');
+            });
+        });
+
+
+        // Set Default functionality
+        document.getElementById('defaultBtn').addEventListener('click', () => {
+            const filename = document.getElementById('filenameInput').value;
+             if (!filename) return;
+
+            fetch('/admin/default', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename: filename })
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert('Default signature set to: ' + filename);
+                loadFileList();
+            })
+            .catch(err => alert('Error setting default'));
+        });
+
+        // New File
+        document.getElementById('newFileBtn').addEventListener('click', () => {
+            tinymce.activeEditor.setContent('');
+            document.getElementById('filenameInput').value = '';
+            document.getElementById('deleteBtn').style.display = 'none';
+            document.getElementById('defaultBtn').style.display = 'none';
+        });
+
+        // Initial Load
+        loadFileList();
+
+    </script>
+</body>
+</html>
