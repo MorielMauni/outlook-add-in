@@ -14,11 +14,35 @@ Office.onReady((info) => {
     };
 
     // Render previews
-    document.getElementById("hebrew-signature-container").innerHTML = getHebrewSignature(user);
-    document.getElementById("english-signature-container").innerHTML = getEnglishSignature(user);
+    const phoneToggle = document.getElementById("phone-toggle");
+    
+    // Load saved state
+    const savedState = localStorage.getItem('hidePhone') === 'true';
+    phoneToggle.checked = savedState;
 
-    document.getElementById("btn-hebrew").onclick = () => setSignature(getHebrewSignature(user));
-    document.getElementById("btn-english").onclick = () => setSignature(getEnglishSignature(user));
+    function updateSignatures() {
+      const hidePhone = phoneToggle.checked;
+      document.getElementById("hebrew-signature-container").innerHTML = getHebrewSignature(user, hidePhone);
+      document.getElementById("english-signature-container").innerHTML = getEnglishSignature(user, hidePhone);
+    }
+
+    // Initial render
+    updateSignatures();
+
+    // Event listener for toggle
+    phoneToggle.addEventListener('change', () => {
+        localStorage.setItem('hidePhone', phoneToggle.checked);
+        updateSignatures();
+    });
+
+    document.getElementById("btn-hebrew").onclick = () => {
+        const hidePhone = phoneToggle.checked;
+        setSignature(getHebrewSignature(user, hidePhone));
+    };
+    document.getElementById("btn-english").onclick = () => {
+        const hidePhone = phoneToggle.checked;
+        setSignature(getEnglishSignature(user, hidePhone));
+    };
   }
 });
 

@@ -1,4 +1,4 @@
-export function getHebrewSignature(user) {
+export function getHebrewSignature(user, hidePhone) {
     return `
     <div dir="rtl" style="direction: rtl; text-align: right; font-family: 'Segoe UI', Arial, sans-serif;">
         <table dir="rtl" cellspacing="0" cellpadding="0" style="font-family: 'Segoe UI', Arial, sans-serif; color: #1f2a44; text-align: right; direction: rtl; width: auto;">
@@ -23,8 +23,7 @@ export function getHebrewSignature(user) {
                         </tr>
                         <tr>
                             <td style="padding-top: 8px; font-size: 12px; color: #1f2a44;">
-                                <span style="display: inline-block;">${user.phone || '{PHONE}'}</span>
-                                <span style="color: #f2ae2e; font-weight: bold; margin: 0 5px;">|</span>
+                                ${hidePhone ? '' : `<span style="display: inline-block;">${user.phone || '{PHONE}'}</span><span style="color: #f2ae2e; font-weight: bold; margin: 0 5px;">|</span>`}
                                 <span style="display: inline-block;">{FAX}</span>
                             </td>
                         </tr>
@@ -40,7 +39,7 @@ export function getHebrewSignature(user) {
     </div>`;
 }
 
-export function getEnglishSignature(user) {
+export function getEnglishSignature(user, hidePhone) {
     return `
     <table dir="ltr" cellspacing="0" cellpadding="0" style="font-family: 'Segoe UI', Arial, sans-serif; color: #1f2a44; text-align: left; direction: ltr;">
         <tr>
@@ -64,8 +63,7 @@ export function getEnglishSignature(user) {
                     </tr>
                     <tr>
                         <td style="padding-top: 8px; font-size: 12px; color: #1f2a44;">
-                            <span style="display: inline-block;">${user.phone || '{PHONE}'}</span>
-                            <span style="color: #f2ae2e; font-weight: bold; margin: 0 5px;">|</span>
+                            ${hidePhone ? '' : `<span style="display: inline-block;">${user.phone || '{PHONE}'}</span><span style="color: #f2ae2e; font-weight: bold; margin: 0 5px;">|</span>`}
                             <span style="display: inline-block;">{FAX}</span>
                         </td>
                     </tr>
