@@ -67,7 +67,8 @@ app.get('/admin/dashboard', requireAuth, (req, res) => {
 // Save content endpoint
 app.post('/admin/save', (req, res) => {
     const { content, filename } = req.body;
-    if (!content) {
+    // Allow empty content string, but reject if undefined/null
+    if (content === undefined || content === null) {
         return res.status(400).send('No content provided');
     }
 
