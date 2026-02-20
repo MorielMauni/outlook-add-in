@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "core-js": "^3.16.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "regenerator-runtime": "^0.13.9"
   },
   "devDependencies": {

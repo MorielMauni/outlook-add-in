@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+admin-center/node_modules/
 npm-debug.log
 
 # Build outputs
@@ -20,6 +21,8 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+.agents/
+
 # Test artifacts
 cookies.txt
 cookies_new.txt

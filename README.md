@@ -12,6 +12,7 @@ The application is containerized using Docker and Orchestrated via Docker Compos
 - **Application Cluster**: Behind the load balancer, 4 replicas of the Node.js application run in parallel.
   - If one container fails, the others continue to serve handling specific requests.
   - The `npm run dev-server` command is used inside the containers as requested, serving the app via webpack.
+- **Admin Center**: A dedicated container running on the same network, providing a UI at `/admin` to manage application assets and configurations.
 
 ## Prerequisites
 
@@ -37,13 +38,14 @@ To start the application with high availability (1 main + 3 backups):
     - Build the Docker image.
     - Generate self-signed certificates automatically in a shared volume.
     - Start 4 application containers.
+    - Start the Admin Center container.
     - Start the Nginx load balancer listening on port 3000.
 
 2.  **Verify Status**:
     ```bash
     docker-compose ps
     ```
-    You should see `lb` (1 instance) and `app` (4 instances) running.
+    You should see `lb` (1 instance), `app` (4 instances), and `admin` (1 instance) running.
 
 ## Sideloading in Outlook
 

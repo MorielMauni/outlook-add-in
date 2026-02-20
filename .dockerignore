@@ -1,6 +1,8 @@
 node_modules
+admin-center/node_modules
 .git
 .vscode
+.agents
 dist
 certs
 .office-addin-dev-certs
