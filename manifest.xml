@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <OfficeApp xsi:type="MailApp" xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0">
   <Id>56cfa1e9-4e02-4e02-9ca9-23c4a24088c3</Id>
-  <Version>1.0.0.0</Version>
+  <Version>1.0.0.1</Version>
   <ProviderName>Auto Signatures</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
-  <DisplayName DefaultValue="Auto Signatures"/>
-  <Description DefaultValue="Automatically sets Auto Signatures."/>
-  <IconUrl DefaultValue="https://localhost:3000/assets/logo.png"/>
-  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/logo.png"/>
+  <DisplayName DefaultValue="NTA Signatures"/>
+  <Description DefaultValue="Automatically sets auto Signatures."/>
+  <IconUrl DefaultValue="https://192.168.70.170:3000/assets/logo.png"/>
+  <HighResolutionIconUrl DefaultValue="https://192.168.70.170:3000/assets/logo.png"/>
   <SupportUrl DefaultValue="https://www.contoso.com/help"/>
   <AppDomains>
-    <AppDomain>https://localhost:3000</AppDomain>
+    <AppDomain>https://192.168.70.170:3000</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox"/>
@@ -23,7 +23,7 @@
   <FormSettings>
     <Form xsi:type="ItemRead">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://localhost:3000/taskpane.html"/>
+        <SourceLocation DefaultValue="https://192.168.70.170:3000/taskpane.html"/>
         <RequestedHeight>250</RequestedHeight>
       </DesktopSettings>
     </Form>
@@ -105,22 +105,22 @@
       </Hosts>
       <Resources>
         <bt:Images>
-          <bt:Image id="Icon.16x16" DefaultValue="https://localhost:3000/assets/logo.png"/>
-          <bt:Image id="Icon.32x32" DefaultValue="https://localhost:3000/assets/logo.png"/>
-          <bt:Image id="Icon.80x80" DefaultValue="https://localhost:3000/assets/logo.png"/>
+          <bt:Image id="Icon.16x16" DefaultValue="https://192.168.70.170:3000/assets/logo.png"/>
+          <bt:Image id="Icon.32x32" DefaultValue="https://192.168.70.170:3000/assets/logo.png"/>
+          <bt:Image id="Icon.80x80" DefaultValue="https://192.168.70.170:3000/assets/logo.png"/>
         </bt:Images>
         <bt:Urls>
-          <bt:Url id="commands.Url" DefaultValue="https://localhost:3000/commands.html"/>
-          <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:3000/taskpane.html"/>
-          <bt:Url id="Autorun" DefaultValue="https://localhost:3000/autorunweb.html"/>
-          <bt:Url id="runtimeJs" DefaultValue="https://localhost:3000/autorunshared.js"/>
+          <bt:Url id="commands.Url" DefaultValue="https://192.168.70.170:3000/commands.html"/>
+          <bt:Url id="Taskpane.Url" DefaultValue="https://192.168.70.170:3000/taskpane.html"/>
+          <bt:Url id="Autorun" DefaultValue="https://192.168.70.170:3000/autorunweb.html"/>
+          <bt:Url id="runtimeJs" DefaultValue="https://192.168.70.170:3000/autorunshared.js"/>
         </bt:Urls>
         <bt:ShortStrings>
-          <bt:String id="GroupLabel" DefaultValue="M&amp;D Signatures"/>
-          <bt:String id="TaskpaneButton.Label" DefaultValue="Manage Signatures"/>
+          <bt:String id="GroupLabel" DefaultValue="NTA Signatures"/>
+          <bt:String id="TaskpaneButton.Label" DefaultValue="Manage NTA Signatures"/>
         </bt:ShortStrings>
         <bt:LongStrings>
-          <bt:String id="TaskpaneButton.Tooltip" DefaultValue="Open the M&amp;D Signatures pane"/>
+          <bt:String id="TaskpaneButton.Tooltip" DefaultValue="NTA Signatures taskpane"/>
         </bt:LongStrings>
       </Resources>
     </VersionOverrides>
